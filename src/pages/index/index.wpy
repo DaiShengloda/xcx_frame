@@ -1,0 +1,55 @@
+<style lang="scss">
+@import '../../sass/base/reset';
+@import '../../sass/commons/function';
+@import '../../sass/index/index';
+</style>
+
+<template>
+ <view class="index">
+    <banner></banner>
+    <teacherScroll></teacherScroll>
+    <loadingBox></loadingBox>
+    <listBox></listBox>
+ </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import method from '@/api/motheds';
+import httpList from '@/api/httpList';
+import Banner from '@/components/index/banner';
+// import TeacherScroll from '@/components/index/teacherScroll';
+// import ListBox from '@/components/index/listBox';
+// import LoadingBox from '@/components/index/loadingBox';
+export default class Index extends wepy.page {
+    config = {
+        // navigationBarTitleText: '小程序框架'
+    };
+
+    components = {
+        banner: Banner,
+        // teacherScroll: TeacherScroll,
+        // listBox: ListBox,
+        // loadingBox: LoadingBox,
+    };
+
+    //模板数据
+    data = {
+    };
+
+    //事件处理函数
+    methods = {
+    
+    };
+
+    //页面生命周期函数
+    onLoad() {
+    };
+
+    onShow() {
+        //父组件下发广播事件
+        this.$broadcast('updateData');
+    };
+}
+
+</script>

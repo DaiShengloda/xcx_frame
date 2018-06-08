@@ -1,0 +1,130 @@
+// 模版公共方法
+// 字符串截取
+var subString = function(value, length) {
+
+        if (!value) {
+            return "";
+        }
+        value = value.trim();
+        if (value.length > length) {
+            var first = value.toString().substring(0, length);
+            value = first + "...";
+        }
+        return value;
+    }
+    // 数字处理
+var numberFormat = function(value) {
+        value = parseInt(value);
+        if (isNaN(value)) {
+            return 0;
+        }
+
+        if (value >= 10000) {
+            value = value + "";
+            var len = value.length;
+            value = value.slice(0, len - 3);
+            return parseFloat(value / 10) + "万";
+        } else {
+            return value
+        }
+    }
+    // 内容\n换成回车
+var fmtContent = function(value) {
+        value = value.split("\n").join("<br/>");
+        return value;
+    }
+    // //根据产品类型判断是否显示保障金额
+var guaranteeLimit = function(content) {
+        if (!content || !content.insuranceProductName) return "";
+        var val = "";
+        if (content.insuranceProductName.indexOf("重疾") > -1 || content.insuranceProductName.indexOf("重大疾病") > -1) {
+            val = content.guaranteeLimit + "元";
+        } else {
+            val = "详见保障权益"
+        }
+
+        return val;
+    }
+    // 日期字数控制
+var timeNum = function(content, num) {
+        if (!content) return;
+        if (num < content.length) return content;
+        return content.slice(0, num);
+    }
+    // 证件类型 过滤
+var identifyType = function(val) {
+    var value = "";
+    switch (val) {
+        case "01":
+            value = "身份证"
+            break;
+        case "02":
+            value = "护照"
+            break;
+        case "03":
+            value = "军人证"
+            break;
+        case "04":
+            value = "出生证"
+            break;
+        case "05":
+            value = "港澳台同胞证"
+            break;
+        case "06":
+            value = "户口本"
+            break;
+        case "08":
+            value = "港澳台通行证"
+            break;
+        case "99":
+            value = "其它"
+            break;
+    }
+    return value;
+}
+var formatTime = function(time) {
+    var h = Math.floor(time / 3600);
+    var m = Math.floor((time % 3600) / 60);
+    var s = time % 60;
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+    if (h > 0) {
+        return h + 'h ' + m + "'" + s + '"'
+    } else {
+        return m + "'" + s + '"'
+    }
+}
+var subStringTime = function(content, num, begin) {
+    var begins = 0;
+    if (!content) return;
+    if (begin) {
+        begins = begin;
+    }
+    return content.slice(begins, num);
+};
+var playNum = function(num) {
+    var str = num + "";
+    var len = str.length;
+    var inNum = str.length > 4 ? str.substring(0, len - 4) + "万" : str;
+    return inNum
+};
+var totleNum = function(courseList) {
+    var totles = 0;
+    for (var i = 0; i < courseList.length; i++) {
+        totles += (courseList[i].playnum) * 1
+    }
+    return totles
+}
+module.exports = {
+    subString: subString,
+    numberFormat: numberFormat,
+    fmtContent: fmtContent,
+    guaranteeLimit: guaranteeLimit,
+    timeNum: timeNum,
+    identifyType: identifyType,
+    formatTime: formatTime,
+    subStringTime: subStringTime,
+    formatTime: formatTime,
+    playNum: playNum,
+    totleNum: totleNum
+}

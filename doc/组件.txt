@@ -1,0 +1,11 @@
+banner -- 轮播
+courseList -- 精品课程
+getUserInfo -- 个人中心-登录授权
+hisReview -- 历史回顾
+list -- 
+listBox -- 父组件
+loadingBox -- 加载层
+payBtn -- 支付按钮
+teacherScroll -- tab栏
+todying -- 今日说股
+list-ul -- 个人信息

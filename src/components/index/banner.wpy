@@ -1,0 +1,79 @@
+<style lang="scss">
+    @import '../../sass/base/reset';
+    @import '../../sass/commons/function';
+    @import '../../sass/components/banner';
+</style>
+
+<template>
+    <view class="swiper">
+        <swiper circular="true" indicator-dots="{{showBannerDots}}" autoplay="true" interval="2500" duration="1000" indicator-color="#f5f5f5" indicator-active-color="#ff6e06">
+            <block>
+                <swiper-item wx:for="{{bannerData}}" wx:for-item="value" wx:for-index="u" @tap="bannerEvt({{value}})">
+                    <image src="{{value.url}}" class="slide-image" ></image>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import httpList from '@/api/httpList';
+import method from '@/api/motheds';
+export default class Banner extends wepy.component {
+    data = {
+        bannerData: [], //banner数据
+    };
+    
+    //计算属性
+    computed = {
+        showBannerDots() {
+            var boo =  this.bannerData.length>1?true:false;
+            return boo;
+        }
+    };
+
+    //组件间的通信
+    events = {};
+
+    //watcher监听器
+    watch = {};
+
+    //模板中交互事件
+    methods = {
+        bannerEvt(value) {
+            //banner 点击事件 根据jumpType 判断是否跳转外链与内联  内联时jumpUrl为id 外链是为链接
+            console.log(value);
+            if (!value.jumpType ||
+                value.jumpType == '' ||
+                !value.jumpUrl ||
+                value.jumpUrl == ''
+            )
+                return;
+            if (value.jumpType == 1) {
+                method.tools().navigateLink('./detailClasses?id=' + value.jumpUrl);
+            } else {
+                console.log(132);
+                method.tools().setLocal('action', value.jumpUrl);
+                method.tools().navigateLink('../urlLink/urlLink');
+            }
+        }
+    };
+
+    async onLoad() {
+        this.bannerFn();
+    };
+
+    /**
+     * banner图Ajax请求
+     */
+    bannerFn() {
+        var self = this;
+        httpList.bannerAjax('').then(res => {
+            console.log(res.data);
+            self.bannerData = res.data;
+            self.$apply();
+        });
+    }
+}
+</script>
